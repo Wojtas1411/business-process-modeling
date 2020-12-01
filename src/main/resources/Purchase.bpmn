@@ -11,24 +11,24 @@
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="order_contractorName" label="Contractor Name" type="string">
-            <camunda:properties>
-              <camunda:property id="readonly" value="true" />
-            </camunda:properties>
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
           </camunda:formField>
           <camunda:formField id="order_bedAmount" label="Bed Amount" type="long">
-            <camunda:properties>
-              <camunda:property id="readonly" value="true" />
-            </camunda:properties>
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
           </camunda:formField>
           <camunda:formField id="order_wardrobeAmount" label="Wardrobe amount" type="long">
-            <camunda:properties>
-              <camunda:property id="readonly" value="true" />
-            </camunda:properties>
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
           </camunda:formField>
           <camunda:formField id="needs_advance_payment" label="Needs Advance Payment" type="boolean">
-            <camunda:properties>
-              <camunda:property id="readonly" value="true" />
-            </camunda:properties>
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
           </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
