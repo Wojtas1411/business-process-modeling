@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1732isv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.3">
+  <bpmn:collaboration id="Collaboration_05qpox3">
+    <bpmn:participant id="company-purchase" name="Purchase" processRef="Purchase" />
+  </bpmn:collaboration>
+  <bpmn:process id="Purchase" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="PlaceOrder" camunda:formKey="embedded:app:forms/PlaceOrderForm.html" camunda:initiator="client">
+      <bpmn:outgoing>SequenceFlow_09jk45b</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_09jk45b" sourceRef="StartEvent_1" targetRef="order_assesment_task" />
+    <bpmn:endEvent id="EndEvent_0sl0r7h">
+      <bpmn:incoming>SequenceFlow_1lh5yu5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1lh5yu5" sourceRef="ConfirmOrder" targetRef="EndEvent_0sl0r7h" />
+    <bpmn:sequenceFlow id="SequenceFlow_1apcd3q" sourceRef="order_assesment_task" targetRef="ConfirmOrder" />
+    <bpmn:userTask id="ConfirmOrder" name="ConfirmOrder" camunda:assignee="${client}">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="order_contractorName" label="Contractor Name" type="string">
+            <camunda:properties>
+              <camunda:property id="readonly" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="order_bedAmount" label="Bed Amount" type="long">
+            <camunda:properties>
+              <camunda:property id="readonly" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="order_wardrobeAmount" label="Wardrobe amount" type="long">
+            <camunda:properties>
+              <camunda:property id="readonly" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="needs_advance_payment" label="Needs Advance Payment" type="boolean">
+            <camunda:properties>
+              <camunda:property id="readonly" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1apcd3q</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1lh5yu5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:businessRuleTask id="order_assesment_task" name="OrderAssessment" camunda:decisionRef="order_assessment">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="needs_advance_payment">
+            <camunda:script scriptFormat="groovy">decisionResult.getSingleResult().getEntry("needs_advance_payment")</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_09jk45b</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1apcd3q</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_05qpox3">
+      <bpmndi:BPMNShape id="Participant_1t9pqdo_di" bpmnElement="company-purchase">
+        <dc:Bounds x="123" y="74" width="600" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="202" y="136" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="193" y="179" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_09jk45b_di" bpmnElement="SequenceFlow_09jk45b">
+        <di:waypoint x="238" y="154" />
+        <di:waypoint x="296" y="154" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_1vn8fxz_di" bpmnElement="ConfirmOrder">
+        <dc:Bounds x="501" y="114" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0sl0r7h_di" bpmnElement="EndEvent_0sl0r7h">
+        <dc:Bounds x="672" y="136" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1lh5yu5_di" bpmnElement="SequenceFlow_1lh5yu5">
+        <di:waypoint x="601" y="154" />
+        <di:waypoint x="672" y="154" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1apcd3q_di" bpmnElement="SequenceFlow_1apcd3q">
+        <di:waypoint x="396" y="154" />
+        <di:waypoint x="501" y="154" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BusinessRuleTask_1cdgo62_di" bpmnElement="order_assesment_task">
+        <dc:Bounds x="296" y="114" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

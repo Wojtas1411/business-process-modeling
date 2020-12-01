@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_13kpmo3" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="order_assessment" name="OrderAssessment">
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="Number of beds">
+        <inputExpression id="inputExpression_1" typeRef="integer">
+          <text>${order_bedAmount}</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0bz6pm7" label="Number of wardrobes">
+        <inputExpression id="LiteralExpression_1d4smjb" typeRef="integer">
+          <text>${order_wardrobeAmount}</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="Needs Advance Payment" name="needs_advance_payment" typeRef="boolean" />
+      <rule id="DecisionRule_1dg26af">
+        <inputEntry id="UnaryTests_0aoyksk">
+          <text>&gt; 5</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hugp25">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00appoq">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_11xhx2a">
+        <inputEntry id="UnaryTests_0sbjws1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zhgyxi">
+          <text>&gt; 0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xaupux">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0rp6ass">
+        <inputEntry id="UnaryTests_1wl1w1t">
+          <text>&lt;= 5</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11by7sg">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0a8n23q">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
