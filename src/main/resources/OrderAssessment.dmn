@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_13kpmo3" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
   <decision id="order_assessment" name="OrderAssessment">
-    <decisionTable id="decisionTable_1">
+    <decisionTable id="decisionTable_1" hitPolicy="FIRST">
       <input id="input_1" label="Number of beds">
         <inputExpression id="inputExpression_1" typeRef="integer">
           <text>${order_bedAmount}</text>
@@ -44,6 +44,17 @@
         </inputEntry>
         <outputEntry id="LiteralExpression_0a8n23q">
           <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jlb8ch">
+        <inputEntry id="UnaryTests_0kejix1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0178dx4">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ojwgi8">
+          <text></text>
         </outputEntry>
       </rule>
     </decisionTable>
