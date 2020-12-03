@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RequiredHistoryLevel(ProcessEngineConfiguration.HISTORY_AUDIT)
 public class PurchaseTest {
@@ -33,34 +34,46 @@ public class PurchaseTest {
         HistoryService historyService = processEngineRule.getHistoryService();
         VariableMap variablesIn = Variables.createVariables()
                 .putValue("order_contractorName", "Kowalski")
-                .putValue("order_order_bedAmount", 2)
+                .putValue("order_bedAmount", 2)
                 .putValue("order_wardrobeAmount", 0);
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Purchase", variablesIn);
 
         assertThat(processInstance).isEnded();
     }
 
-    @Ignore
     @Test
-    @Deployment(resources = {"Transaction.bpmn"})
-    public void shouldAddTransactionId() throws InterruptedException {
+    @Deployment(resources = {"Magazine.bpmn"})
+    public void shouldThrowErrorDueToMissingProducts() {
         RuntimeService runtimeService = processEngineRule.getRuntimeService();
         HistoryService historyService = processEngineRule.getHistoryService();
         VariableMap variablesIn = Variables.createVariables()
-                .putValue("parentBusinessKey", "123456789");
+                .putValue("order_bedAmount", 7)
+                .putValue("order_wardrobeAmount", 5);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Magazine", variablesIn);
 
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Transaction", variablesIn);
-
-        // TODO fix
         assertThat(processInstance).isEnded();
 
-        List<HistoricVariableInstance> transactionIds = historyService.createHistoricVariableInstanceQuery().variableName("").list();
+        List<HistoricVariableInstance> totalCountHistory = historyService.createHistoricVariableInstanceQuery().variableName("total_count").list();
+        assertEquals(1, totalCountHistory.size());
 
-        assertEquals(1, transactionIds.size());
-
-        HistoricVariableInstance lastTransactionId = transactionIds.get(0);
-
-        assertEquals("GHX-12345", lastTransactionId.getValue().toString());
+        assertEquals(12L, totalCountHistory.get(0).getValue());
 
     }
+
+    @Test
+    @Deployment(resources = {"Purchase.bpmn", "OrderAssessment.dmn", "Transaction.bpmn", "Magazine.bpmn"})
+    public void shouldFailToOrderWhenOrderTooBig() {
+        RuntimeService runtimeService = processEngineRule.getRuntimeService();
+        HistoryService historyService = processEngineRule.getHistoryService();
+        VariableMap variablesIn = Variables.createVariables()
+                .putValue("order_contractorName", "IKEA")
+                .putValue("order_bedAmount", 7)
+                .putValue("order_wardrobeAmount", 5);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Purchase", variablesIn);
+
+//        assertThat(processInstance).isEnded();
+//        assertThat(processInstance).variables().containsEntry("needs_advance_payment", Boolean.TRUE);
+//        TODO
+    }
+
 }
