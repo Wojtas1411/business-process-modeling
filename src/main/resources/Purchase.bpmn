@@ -76,6 +76,9 @@
       <bpmn:errorEventDefinition errorRef="Error_0gkp75o" />
     </bpmn:boundaryEvent>
     <bpmn:endEvent id="reject_order" name="Order rejected">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="bp.project.company.LoggingExecutionListener" event="end" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0i22yx2</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:businessRuleTask id="order_assesment_task" name="OrderAssessment" camunda:decisionRef="order_assessment">
@@ -144,6 +147,9 @@
       <bpmn:outgoing>SequenceFlow_172bef8</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:endEvent id="EndEvent_1go7xi5" name="Valid purchase - with complaint">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="bp.project.company.LoggingExecutionListener" event="end" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_172bef8</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_172bef8" sourceRef="ExclusiveGateway_0lx1xwd" targetRef="EndEvent_1go7xi5" />
@@ -158,6 +164,9 @@
       <bpmn:messageEventDefinition messageRef="transaction_end" />
     </bpmn:intermediateCatchEvent>
     <bpmn:endEvent id="EndEvent_0sl0r7h" name="Valid purchase - no complaint">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="bp.project.company.LoggingExecutionListener" event="end" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1p4sjih</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1xan3sc" name="Is complaint?" default="SequenceFlow_1p4sjih">
@@ -201,6 +210,9 @@
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:endEvent id="EndEvent_0uxqwos" name="Valid purchase - complaint missed">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="bp.project.company.LoggingExecutionListener" event="end" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0641i31</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0upt336" sourceRef="IntermediateThrowEvent_0232mhv" targetRef="IntermediateThrowEvent_0nbe46i" />
@@ -229,6 +241,9 @@
       <bpmn:errorEventDefinition errorRef="Error_1771hqg" />
     </bpmn:boundaryEvent>
     <bpmn:endEvent id="EndEvent_095o94c" name="Order rejected -  missing products">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="bp.project.company.LoggingExecutionListener" event="end" />
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1f7mxbm</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1f7mxbm" sourceRef="BoundaryEvent_04gbpah" targetRef="EndEvent_095o94c" />
